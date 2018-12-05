@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<!--
+	Visualize by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Book Recommender</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<!-- <span class="avatar"><img src="images/avatar.jpg" alt="" /></span> -->
+						<h2> Welcome User1, improve your literacy with these</h2>
+					</header>
+
+				<!-- Main -->
+					<section id="main">
+
+						<!-- Thumbnails -->
+							<section class="thumbnails">
+								<div>
+									<a href="images/fulls/01.jpg">
+										<img src="images/thumbs/01.jpg" alt="" />
+										<h3>Book1</h3>
+									</a>
+								</div>
+								<div>
+									<a href="images/fulls/03.jpg">
+										<img src="images/thumbs/03.jpg" alt="" />
+										<h3>Book2</h3>
+									</a>
+									<!-- <a href="images/fulls/04.jpg">
+										<img src="images/thumbs/04.jpg" alt="" />
+										<h3>Lorem ipsum dolor sit amet</h3>
+									</a> -->
+								</div>
+								<div>
+									<a href="images/fulls/06.jpg">
+										<img src="images/thumbs/06.jpg" alt="" />
+										<h3>Book3</h3>
+									</a>
+									<!-- <a href="images/fulls/07.jpg">
+										<img src="images/thumbs/07.jpg" alt="" />
+										<h3>Lorem ipsum dolor sit amet</h3>
+									</a> -->
+								</div>
+                </section>
+              </section>
+          <section id="dataentry">
+
+            <section class="entries">
+            <div id>
+                  <h1>Enter new weights</h1>
+                  <form id="dataform" onsubmit="getData()">
+                    <input type="text" name="feature1" id="f1" value="0.0" />
+                    <input type="text" name="feature2" id="f2" value="0.0" />
+                    <input type="text" name="feature3" id="f3" value="0.0" />
+                    <!-- <input type="submit" value="Submit"> -->
+                  </form>
+                  <button id="a" style="width:120px;">Recompute score</button>
+                </div>
+                <!-- <div id>
+                  <a href="images/fulls/demo_pie.jpg">
+                    <img src="images/thumbs/demo_pie.jpg" alt="" />
+                  </a>
+                </div> -->
+                <div id="pie">
+                <script src="https://d3js.org/d3.v4.min.js"></script>
+                <script>
+
+function change() {
+  var pie = d3.pie()
+    .value(function(d) { return d.presses; })(data);
+  path = d3.select("#pie").selectAll("path").data(pie); // Compute the new angles
+  path.attr("d", arc); // redrawing the path
+  d3.selectAll("text").data(pie).attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; }); // recomputing the centroid and translating the text accordingly.
+}
+
+var data = [{"letter":"Genre","presses":2},{"letter":"Author","presses":2},{"letter":"Ratings","presses":2}];
+
+var width = 300,
+  height = 300,
+  radius = Math.min(width, height) / 2;
+
+var color = d3.scaleOrdinal()
+  .range(["#2C93E8","#838690","#F56C4E"]);
+
+var pie = d3.pie()
+  .value(function(d) { return d.presses; })(data);
+
+var arc = d3.arc()
+  .outerRadius(radius - 10)
+  .innerRadius(0);
+
+var labelArc = d3.arc()
+  .outerRadius(radius - 80)
+  .innerRadius(radius - 40);
+
+var svg = d3.select("#pie")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width/2 + "," + height/2 +")"); 
+    // Moving the center point. 1/2 the width and 1/2 the height
+
+var g = svg.selectAll("arc")
+  .data(pie)
+  .enter().append("g")
+  .attr("class", "arc");
+
+g.append("path")
+  .attr("d", arc)
+  .style("fill", function(d) { return color(d.data.letter);});
+
+g.append("text")
+  .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+  .text(function(d) { return d.data.letter;})
+  .style("fill", "#fff");
+
+
+d3.select("button#a")
+  .on("click", function() {
+    var f1 = document.getElementById("f1").value;
+    var f2 = document.getElementById("f2").value;
+    var f3 = document.getElementById("f3").value;
+
+    if(parseInt(f1) > 0)
+    data[0].presses = parseInt(f1);
+    if(parseInt(f2) > 0)
+    data[1].presses = parseInt(f2);
+    if(parseInt(f3) > 0)
+    data[2].presses = parseInt(f3);
+    change();
+  })
+
+
+                </script>
+                </div>
+              </section>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p>&copy; Information Retrieval Project. Aditya Narula and Ramya Sarma.</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/main.js"></script>
+      <script src="assets/js/datawork.js"></script>
+      <!-- <script src="assets/js/graph.js"></script> -->
+      <script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+	</body>
+</html>
