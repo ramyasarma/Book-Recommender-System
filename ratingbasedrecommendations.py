@@ -150,6 +150,7 @@ def getBooksLikedByRating(user_id):
 		booknr=row['goodreads_book_id']
 		#print(Udf[booknr].sort_values(ascending=False)[:10])
 		result = pd.concat(result, books[books['id'].isin( Udf[booknr].sort_values(ascending=False)[:10].index )])
+	return result
 
 
 if __name__ == "__main__":

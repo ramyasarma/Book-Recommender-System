@@ -22,7 +22,6 @@ def getBooksLikedByAuthor(user_id):
 	for key, value in mostlikedauthors.items():
 		authorname = key
 		otherbooksbythisauthor = books.loc[books['authors'] == authorname]
-		
 		authorbookrecommendations = pd.concat([otherbooksbythisauthor.head(5),authorbookrecommendations])
 	return authorbookrecommendations
 if __name__ == "__main__":
