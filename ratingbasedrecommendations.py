@@ -123,13 +123,13 @@ songsd = dict(enumerate(data['song'].cat.categories))
 user_count = data.groupby('song').size()
 to_generate = sorted(list(songsd), key=lambda x: -user_count[x])
 
-similarity = bm25(matrix)
+#similarity = bm25(matrix)
 
 from sklearn.decomposition import TruncatedSVD
 svd = TruncatedSVD(n_components=50, n_iter=7, random_state=42)
 Xr=svd.fit_transform(bm25(matrix))  
-print(svd.explained_variance_ratio_)  
-print(svd.explained_variance_ratio_.sum())
+#print(svd.explained_variance_ratio_)  
+#print(svd.explained_variance_ratio_.sum())
 
 from sklearn.metrics.pairwise import cosine_similarity
 Udf=pd.DataFrame(cosine_similarity(Xr))
@@ -146,10 +146,14 @@ def getBooksLikedByRating(user_id):
 	highestratedbooks = userbookdetails['ratings'].value_counts().to_dict()
 	highestratedbooks = highestratedbooks.sort_values(by=['rating'], ascending=False).head(10)
 	result = pd.DataFrame()
-	for row in highestratedbooks.rows:		
-		booknr=row['goodreads_book_id']
-		#print(Udf[booknr].sort_values(ascending=False)[:10])
-		result = pd.concat(result, books[books['id'].isin( Udf[booknr].sort_values(ascending=False)[:10].index )])
+	booknr=3#row['goodreads_book_id']
+	print(Udf[booknr].sort_values(ascending=False)[:10])
+#	result = pd.concat(result, books[books['id'].isin( Udf[booknr].sort_values(ascending=False)[:10].index )])
+	
+#	for row in highestratedbooks.rows:		
+#		booknr=row['goodreads_book_id']
+#		#print(Udf[booknr].sort_values(ascending=False)[:10])
+#		result = pd.concat(result, books[books['id'].isin( Udf[booknr].sort_values(ascending=False)[:10].index )])
 	return result
 
 
