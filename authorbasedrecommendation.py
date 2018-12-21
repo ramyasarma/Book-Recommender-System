@@ -8,9 +8,9 @@ import pandas as pd
 import sys
 
 def getBooksLikedByAuthor(user_id):
-	ratings=pd.read_csv('/var/www/html/bookreco/Data/goodbooks-10k/ratings.csv')
-	books=pd.read_csv('/var/www/html/bookreco/Data/goodbooks-10k/books.csv')
-	tags=pd.read_csv('/var/www/html/bookreco/Data/goodbooks-10k/book_tags.csv')
+	ratings=pd.read_csv('/Users/aditya16.narula/Sites/BookReco/goodbooks-10k/ratings.csv')
+	books=pd.read_csv('/Users/aditya16.narula/Sites/BookReco/goodbooks-10k/books.csv')
+	tags=pd.read_csv('/Users/aditya16.narula/Sites/BookReco/goodbooks-10k/book_tags.csv')
 	# get the books liked by this user id
 	userBooks = ratings.loc[ratings['user_id'] == user_id]
 	# join tables based on book_ids to get book 

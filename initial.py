@@ -8,8 +8,8 @@ import pandas as pd
 import sys
 
 def getBooksLikedByUserID(user_id):
-	ratings=pd.read_csv('/var/www/html/bookreco/Data/goodbooks-10k/ratings.csv')
-	books=pd.read_csv('/var/www/html/bookreco/Data/goodbooks-10k/books.csv')
+	ratings=pd.read_csv('/Users/aditya16.narula/Sites/BookReco/goodbooks-10k/ratings.csv')
+	books=pd.read_csv('/Users/aditya16.narula/Sites/BookReco/goodbooks-10k/books.csv')
 	userBooks = ratings.loc[ratings['user_id'] == user_id]
 	userbookdetails = pd.merge(userBooks, books, left_on = 'book_id', right_on = 'goodreads_book_id')
 	return userbookdetails.to_json()

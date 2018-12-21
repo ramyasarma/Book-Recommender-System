@@ -10,7 +10,8 @@
 
 /* Reset */
 
-	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
 		margin: 0;
 		padding: 0;
 		border: 0;
@@ -1733,16 +1734,25 @@
 		padding: 0.75em 1em;
 	}
 
-	input[type="checkbox"],
+	input[type="radio"]{
+    -webkit-appearance: radio;
+	}
+
+	
+	}
+/*
+	input[type="radio"] + label:before {
+		border-radius: 100%;
+	}*/
+/*input[type="checkbox"],
 	input[type="radio"] {
 		-moz-appearance: none;
-		-webkit-appearance: none;
 		-ms-appearance: none;
 		appearance: none;
 		display: block;
 		float: left;
 		margin-right: -2em;
-		opacity: 0;
+		opacity: 50;
 		width: 1em;
 		z-index: -1;
 	}
@@ -1801,13 +1811,7 @@
 		}
 
 	input[type="checkbox"] + label:before {
-		border-radius: 4px;
-	}
-
-	input[type="radio"] + label:before {
-		border-radius: 100%;
-	}
-
+		border-radius: 4px;*/
 	::-webkit-input-placeholder {
 		color: rgba(255, 255, 255, 0.35) !important;
 		opacity: 1.0;
@@ -2200,6 +2204,7 @@
 
 /* Button */
 
+
 	input[type="submit"],
 	input[type="reset"],
 	input[type="button"],
@@ -2213,10 +2218,10 @@
 		-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-		background-color: #FF6382;
+		background-color: #F7DC6F;
 		border-radius: 4px;
 		border: 0;
-		color: !important;
+		color: #1B2631;
 		cursor: pointer;
 		display: inline-block;
 		font-weight: 200;
@@ -2383,6 +2388,34 @@
 	position: relative;
 	float: right;
 }*/
+
+#a {
+	background-color: #25AFDD;
+  cursor: pointer;
+		}
+
+#b {
+background-color: #72C076;
+cursor: pointer;
+}
+
+#c {
+background-color: #C3CDC6;
+cursor: pointer;
+font-weight: bold;
+font-size: 25;
+}
+
+#submit1{
+	background-color: #F5FFFA;
+cursor: pointer;
+height: 5em;
+}
+
+#survey1{
+	background-color: #F7DC6F;
+cursor: pointer;
+}
 
 .entries {
 		display: -moz-flex;
@@ -2712,10 +2745,18 @@
 	#header {
 		text-align: center;
 		padding: 6em 0 4em 0;
+		color: #fff;
 	}
 
-		#header h2 {
+		h1 {
 			color: rgba(255, 255, 255, 0.65);
+			font-family: 'Cardo', serif;
+			  font-size: 1.5em;
+			  font-weight: normal;
+			  font-style: italic;
+			  /*letter-spacing: 0.1em;*/
+/*			  line-height: 2.2em;
+*/
 		}
 
 		/*#header .avatar {

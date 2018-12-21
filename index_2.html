@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Book Recommender</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+    <!-- to get and print initial books -->
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<!-- <span class="avatar"><img src="images/avatar.jpg" alt="" /></span> -->
+						<h1> Welcome User1, here are your top liked books</h1>
+					</header>
+
+				<!-- Main -->
+          <section id = "initial">
+            <section class="books">
+              <div id="first">
+                  <div class="init_books" style="width: 300px; text-align: center;">
+            </div>
+            </section>
+          </section>
+					<section id="main">
+
+						<!-- Thumbnails -->
+							<section class="thumbnails">
+                <div><h1><b> Recommendations for you</b></h1></div>
+								<div>
+									<a id="a1" href="images/fulls/01.png">
+										<img src="images/thumbs/01.png" alt="" />
+										<h2>Book1</h2>
+                    <h3>Author 1</h3>
+									</a>
+								</div>
+								<div>
+									<a id="a2" href="images/fulls/01.png">
+										<img src="images/thumbs/01.png" alt="" />
+										<h2>Book2<h2>
+                    <h3>Author 2</h3>
+									</a>
+									<a id="a3" href="images/fulls/01.png">
+										<img src="images/thumbs/01.png" alt="" />
+										<h2>Book4</h2>
+                    <h3>Author 4</h3>
+									</a>
+								</div>
+								<div>
+									<a id="a4" href="images/fulls/01.png">
+										<img src="images/thumbs/01.png" alt="" />
+										<h2>Book3</h2>
+                    <h3>Author 3</h3>
+									</a>
+									<a id="a5" href="images/fulls/01.png">
+										<img src="images/thumbs/01.png" alt="" />
+										<h2>Book 5</h2>
+                    <h3>Author 5</h3>
+									</a>
+								</div>
+                </section>
+              </section>
+          <section id="dataentry">
+
+            <section class="entries">
+                <!-- <div id>
+                  <h1>Enter new weights</h1>
+                  <form id="dataform" onsubmit="getData()">
+                    <input type="text" name="feature1" id="f1" value="0.0" />
+                    <input type="text" name="feature2" id="f2" value="0.0" />
+                    <input type="text" name="feature3" id="f3" value="0.0" />
+                  </form>
+                  <button id="submit" style="width:120px;">Recompute score</button>
+                </div> -->
+                <!-- <div id>
+                  <a href="images/fulls/demo_pie.jpg">
+                    <img src="images/thumbs/demo_pie.jpg" alt="" />
+                  </a>
+                </div> -->
+                <div id="JustOne">
+                  <form name="singleform">
+                    <fieldset>
+                    <h1><b>Provide Recommendations only based on:</b></h1>
+                    <br>
+                    <input type="radio" name="feature" value="genre"><b>Genre</b><br><br><br><br>
+                    <input type="radio" name="feature" value="author"><b>Author</b><br><br><br><br>
+                    <input type="radio" name="feature" value="ratings"><b>Ratings</b><br><br>
+                   </fieldset>
+                  </form>
+                </div>
+                <div id="pie">
+                  <fieldset>
+                  <h1><b>Adjust weights of the features</b></h1>
+                  <div class="buttons" style="width: 300px; text-align: center;">
+                    <button id="a" style="width:60px;"><b>Genre</b></button>
+                    <button id="b" style="width:60px;"><b>Author</b></button>
+                    <button id="c" style="width:70px;"><b>Ratings</b></button>
+                    </fieldset>
+                  </div>
+                <script src="https://d3js.org/d3.v4.min.js"></script>
+                <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+                <script>
+
+    var arguments = {'user_id' : 1 };
+    var data_received;
+    var initial_books={};
+
+
+        $.ajax({
+          type    : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+          url     : 'getInitialBooks.php', // the url where we want to POST
+          data    : arguments, // our data object
+          dataType  : 'json', // what type of data do we expect back from the server
+          encode    : true,
+          //so that we ca access variables declared outside
+          async: false,
+
+          success : function(data){
+            data_received = JSON.parse(data);
+            //console.log(initial_books);
+            for(var i=6;i<12;i++){
+              initial_books[i-6] = {"bid":0,"titlex":"",
+                                  "author":"","image":""};
+              initial_books[i-6].bid=data_received.book_id_x[i];
+              initial_books[i-6].titlex=data_received.title[i];
+              initial_books[i-6].author = data_received.authors[i];
+              initial_books[i-6].image = data_received.image_url[i];
+            }
+
+          }
+        })
+          // .done(function(data) {
+          //   console.log(typeof data);
+          //   initial_books = data;
+          //   //console.log(initial_books.user_id); 
+          // });
+
+          console.log(initial_books);
+
+function change() {
+
+  var pie = d3.pie()
+    .value(function(d) { return d.presses; })(data);
+  path = d3.select("#pie").selectAll("path").data(pie); // Compute the new angles
+  path.attr("d", arc); // redrawing the path
+  // d3.selectAll("text").data(pie).attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; }); // recomputing the centroid and translating the text accordingly.
+
+}
+//display initial books using svg 
+//use initial_books dictionary
+var width1 = 750;
+var height1 = 200;
+     
+var svg1 = d3.select("#initial")
+            .append("svg")
+            .attr("width", width1)
+            .attr("height", height1);
+
+var image1 = svg1.append('image')
+    .attr('xlink:href', initial_books[0].image)
+    .attr('width', 100)
+    .attr('height',145);
+    
+    svg1.append("text")
+          .text(initial_books[0].author.split(',')[0])
+          .attr("fill","white")
+          .attr("y",160);
+
+var image2 = svg1.append('image')
+    .attr('xlink:href', initial_books[1].image)
+    .attr('width', 100)
+    .attr('height',145)
+    .attr("transform", "translate("+120+","+"0)");
+
+    svg1.append("text")
+          .text(initial_books[1].author.split(',')[0])
+          .attr("fill","white")
+          .attr("x",120)
+          .attr("y",160);
+
+var image3 = svg1.append('image')
+    .attr('xlink:href', initial_books[2].image)
+    .attr('width', 100)
+    .attr('height',145)
+    .attr("transform", "translate("+240+","+"0)");
+
+    svg1.append("text")
+          .text(initial_books[2].author.split(',')[0])
+          .attr("fill","white")
+          .attr("x",240)
+          .attr("y",160);
+
+var image4 = svg1.append('image')
+    .attr('xlink:href', initial_books[3].image)
+    .attr('width', 100)
+    .attr('height',145)
+    .attr("transform", "translate("+360+","+"0)");
+
+    svg1.append("text")
+          .text(initial_books[3].author.split(',')[0])
+          .attr("fill","white")
+          .attr("x",360)
+          .attr("y",160);
+
+var image5 = svg1.append('image')
+    .attr('xlink:href', initial_books[4].image)
+    .attr('width', 100)
+    .attr('height',145)
+    .attr("transform", "translate("+480+","+"0)");
+
+    svg1.append("text")
+          .text(initial_books[4].author.split(',')[0])
+          .attr("fill","white")
+          .attr("x",480)
+          .attr("y",160);
+
+var image5 = svg1.append('image')
+    .attr('xlink:href', initial_books[5].image)
+    .attr('width', 100)
+    .attr('height',145)
+    .attr("transform", "translate("+600+","+"0)");
+
+    svg1.append("text")
+          .text(initial_books[5].author.split(',')[0])
+          .attr("fill","white")
+          .attr("x",600)
+          .attr("y",160);
+
+/*.......................*/
+//implement data entry and pic chart here
+
+//initial weights
+//store in 3 variables and pass to "data"
+var genre_wt = 20, author_wt = 80, ratings_wt = 40;
+//default values
+var def_genre = genre_wt, def_auth = author_wt, def_rat = ratings_wt;
+
+var data = [{"letter":"Genre","presses":genre_wt},{"letter":"Author","presses":author_wt},{"letter":"Ratings","presses":ratings_wt}];
+
+var width = 300,
+  height = 300,
+  radius = Math.min(width, height) / 2;
+
+var color = d3.scaleOrdinal()
+  .range(["#25AFDD","#72C076","#C3CDC6"]);
+//range(["#2C93E8","#838690","#F56C4E"])
+
+var pie = d3.pie()
+  .value(function(d) { return d.presses; })(data);
+
+var arc = d3.arc()
+  .outerRadius(radius - 10)
+  .innerRadius(0);
+
+var labelArc = d3.arc()
+  .outerRadius(radius - 80)
+  .innerRadius(radius - 40);
+
+var svg = d3.select("#pie")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width/2 + "," + height/2 +")"); 
+    // Moving the center point. 1/2 the width and 1/2 the height
+
+var g = svg.selectAll("arc")
+  .data(pie)
+  .enter().append("g")
+  .attr("class", "arc");
+
+g.append("path")
+  .attr("d", arc)
+  .style("fill", function(d) { return color(d.data.letter);});
+
+// g.append("text")
+//   .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+//   .text(function(d) { return d.data.letter;})
+//   .style("fill", "#fff");
+
+
+//on button press, the values must change accordingly
+  d3.select("button#a")
+  .on("click", function() {
+    data[0].presses++;
+    genre_wt++;
+    change();
+  })
+d3.select("button#b")
+  .on("click", function() {
+    data[1].presses++;
+    author_wt++;
+    change();
+  })
+d3.select("button#c")
+  .on("click", function() {
+    data[2].presses++;
+    ratings_wt++;
+    change();
+  })
+
+  d3.select("button#submit")
+  .on("click", function() {
+    var f1 = genre_wt;
+    var f2 = author_wt;
+    var f3 = ratings_wt;
+
+    // if(parseInt(f1) > 0)
+    // data[0].presses = parseInt(f1);
+    // if(parseInt(f2) > 0)
+    // data[1].presses = parseInt(f2);
+    // if(parseInt(f3) > 0)
+    // data[2].presses = parseInt(f3);
+
+    data[0].presses = genre_wt;
+    data[1].presses = author_wt;
+    data[2].presses = ratings_wt;
+
+    change();
+  })
+
+  //if we change the radio buttons
+
+  var radios = document.forms["singleform"].elements["feature"];
+for(var i = 0, max = radios.length; i < max; i++) {
+    radios[i].onclick = function() {
+      var current = this.value;
+        console.log(this.value);
+        if(current == "genre"){
+          genre_wt = def_genre;
+          data[0].presses = genre_wt;
+          data[1].presses = 0;
+          data[2].presses = 0;
+          author_wt = 0;
+          ratings_wt = 0;
+        }
+        else if(current == "author"){
+          author_wt = def_auth;
+          data[1].presses = author_wt;
+          data[0].presses = 0;
+          data[2].presses = 0;
+          genre_wt = 0;
+          ratings_wt = 0;
+        }
+        else if(current == "ratings"){
+          ratings_wt = def_rat;
+          data[2].presses = ratings_wt;
+          data[0].presses = 0;
+          data[1].presses = 0;
+          author_wt = 0;
+          genre_wt = 0;
+        }
+
+        change();
+
+    }
+}
+
+                </script>
+                </div>
+              </section>
+					</section>
+      <!-- <div class="heatmap">
+        <script type="text/javascript" src="d3.v3.min.js"></script>
+        <script type="text/javascript" src="heatmap.js"></script>
+      </div> -->
+      <div>
+        <button id="submit1" style="width:320px;">Recompute score</button><br><br>
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLSe8P5-id7PMC4c7wqcRNwM7SWkQfkYaAoCcz4ymWUccRB0npA/viewform">
+    <input type="submit" id="survey1" style="width:160px;" value="Exit Survey" />
+        </form>
+      </div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p>&copy; Information Retrieval Project. Aditya Narula and Ramya Sarma.</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/main.js"></script>
+      <script src="assets/js/datawork.js"></script>
+      <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+    
+
+	</body>
+</html>
